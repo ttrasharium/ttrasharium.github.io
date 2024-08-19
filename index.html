@@ -10,10 +10,10 @@
   <meta name="HandheldFriendly" content="True"/>
   <meta name="robots" content="noindex,nofollow"/>
   <meta http-equiv="Pragma" content="no-cache">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="manifest" href="site.webmanifest">
+  <!--<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">-->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui-core.min.css">
@@ -28,13 +28,13 @@
     <ons-splitter id="appSplitter">
       <ons-splitter-content>
         <ons-page>
-          <ons-toolbar swipeable position="auto">
+          <ons-toolbar position="auto">
             <div class="left">
               <ons-back-button></ons-back-button>
             </div>
             <div class="center" id="video-title"></div>
           </ons-toolbar>
-          <ons-tabbar swipeable id="appTabbar" position="auto">
+          <ons-tabbar id="appTabbar" position="auto">
             <ons-tab label="Нарушения" icon="fa-scale-unbalanced" page="video-abuse.html"
                      active></ons-tab>
             <ons-tab label="Содержание" icon="fa-book-atlas" page="video-summary.html"></ons-tab>
@@ -144,6 +144,11 @@
     <div class="center">
       <span class="list-item__title" id="video-list-item-title"></span>
       <span class="list-item__subtitle" id="video-list-item-subtitle"></span>
+        <div class="list-item__subtitle">
+          <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;<span id="violations-count"></span></span>
+          <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;<span id="summary-count"></span></span>
+          <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;<span id="transcript-count"></span></span>
+        </div>
     </div>
     <div class="right loader_container">
       <img id="video-list-item-thumbnail" class="responsive_image">
@@ -151,11 +156,11 @@
     </div>
   </ons-list-item>
 </template>
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+<!--<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>-->
 <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-<script src="/js/telegram-web-app.js"></script>
-<script src="/js/java-js.js"></script>
+<script src="js/telegram-web-app.js}"></script>
+<script src="js/java-js.js}"></script>
 <script>
   ons.disableIconAutoPrefix();
   ons.ready(() => main());
@@ -170,6 +175,9 @@
   .color-black {
     color: black;
   }
+  .color-green {
+    color: green;
+  }
   .video-segment {
     width: 100%;
   }
@@ -180,7 +188,7 @@
     width: 100px; /* Image scales to fit the width of its container */
     height: auto; /* Maintains the aspect ratio */
 }
-  .loader {
+.loader {
   display: none; /* Initially hidden */
   position: absolute;
   top: 50%;
@@ -192,6 +200,12 @@
   border-top: 8px solid #3498db;
   border-radius: 50%;
   animation: spin 2s linear infinite;
+}
+.selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 .loader_container{
   position: relative;
