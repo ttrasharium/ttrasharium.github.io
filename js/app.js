@@ -1,6 +1,38 @@
-    console.log(location.hash);
-    ons.disableIconAutoPrefix();
+    
+    
+    const fixLocationHash = () => {
+      const hash = location.hash;
+      const split = hash.split("#");
+      let telegramHash = hash;
+      let pageHash = null; 
+      if (split.length > 2) {
+        if (split[1].startsWith("tgWebApp")) {
+          telegramHash = "#" + split[1];
+          pageHash = "#" + split[2];
+        } else if (split[2].startsWith("tgWebApp")) {
+          telegramHash = "#" + split[2];
+          pageHash = "#" + split[1];
+        }
+      }
+      return {tg: telegramHash, pg: pageHash};
+    };
+
+    const hashOptions = fixLocationHash();
+
+    if (hashOptions.tg) {
+      location.hash = hashOptions.tg;
+    }
+
     const tgWebApp = window.Telegram.WebApp;
+    tgWebApp.ready();
+    tgWebApp.disableVerticalSwipes();
+    tgWebApp.expand();
+    ons.disableIconAutoPrefix();
+    location.hash  = "";
+    if (hashOptions.pg) {
+      location.hash = hashOptions.pg;
+    }
+    
     const C = "aHR0cHM6Ly94bjR4NHd0aWhtN29hbnVicWtuZmVjZjdicW94ZGp4c2Y3enRkZHo3dGhzZWViNWQ1YXVkdWVyLWRhZG5sLm1hZ2ljLm9yZw==";
     // const C = "";
     const options = (method) => {
@@ -274,9 +306,7 @@
         };
       },
       mounted() {
-        tgWebApp.ready();
-        tgWebApp.disableVerticalSwipes();
-        tgWebApp.expand();
+        
         const headers = new Headers({'Authorization': 'twa ' + tgWebApp.initData});
         GET.headers = headers;
         POST.headers = headers;
