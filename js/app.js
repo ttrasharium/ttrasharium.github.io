@@ -62,7 +62,7 @@
           }
           return response.json().then(callback);
         }).catch((error) => {
-          $ons.notification.toast(error, { timeout: 2000 });
+          ons.notification.toast(error, { timeout: 2000 });
         });
     };
 
@@ -121,7 +121,7 @@
             title: 'Отправить видео',
             messageHTML: 'Вставьте ссылку на видео YouTube:',
           };
-          $ons.notification.prompt(options).then((link) => {
+          ons.notification.prompt(options).then((link) => {
             if (!link) {
               return;
             }
@@ -130,10 +130,10 @@
             const match = linkUrl.match(VIDEO_ID_PATTERN);
             if (match) {
               fetchApi('/api/sendvideo/' + match[1], POST, (data) => {
-                $ons.notification.toast('Видео отправлено', { timeout: 2000 });
+                ons.notification.toast('Видео отправлено', { timeout: 2000 });
               });
             } else {
-              $ons.notification.toast('Неверная ссылка на видео', { timeout: 2000 });
+              ons.notification.toast('Неверная ссылка на видео', { timeout: 2000 });
             }
           });
         },
