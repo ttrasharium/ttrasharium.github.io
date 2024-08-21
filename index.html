@@ -11,15 +11,14 @@
   <meta name="HandheldFriendly" content="True"/>
   <meta name="robots" content="noindex,nofollow"/>
   <meta http-equiv="Pragma" content="no-cache">
-  <link rel="stylesheet" href="css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="css/onsenui-core.min.css">
   <link rel="stylesheet" href="css/onsen-css-components.min.css">
+  <link rel="stylesheet" href="css/app.css">
   <script src="js/vue.global.prod.js"></script>
   <script src="js/onsenui.min.js"></script>
   <script src="js/vue-onsenui.min.js"></script>
   <script src="js/vue-router.global.prod.js"></script>
-  
-  <link rel="stylesheet" href="css/app.css">
 </head>
 
 <body>
@@ -68,14 +67,14 @@
               <ons-list>
                 <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id" @click="viewVideo(prod)" tappable>
                   <div class="center list__item__center">
-                    <div class="list-item__title">{{ prod.title }}</div>
-                    <div class="list-item__subtitle">{{ prod.author }}</div>
+                    <span class="list-item__title">{{ prod.title }}</span>
+                    <span class="list-item__subtitle">{{ prod.author }}</span>
                     <div class="list-item__subtitle">
                       <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;{{ prod.violationsCount }}&nbsp;</span>
                       <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;{{ prod.summaryCount }}&nbsp;</span>
                       <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;{{ prod.transcriptCount }}&nbsp;</span>
                     </div>
-                    <div class="left list__item__right">
+                    <div class="right list__item__right">
                       <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
                     </div>
                   </div>
@@ -147,7 +146,7 @@
         </div>
       </v-ons-list-header>
       <v-ons-list-item>
-        <div class="content">
+        <div class="content selectable">
           <b v-if="item.p">Спикер {{item.p}}:</b>
           <div class="text-content">{{item.c}}</div>
         </div>
@@ -194,7 +193,7 @@
               <div class="center list__item__center">
                 <div class="list-item__subtitle">{{ prod.title }}</div>
               </div>
-              <div class="left list__item__right">
+              <div class="right list__item__right">
                 <img :src="'data:image/jpg;base64,' + prod.avatar" height="100px">
               </div>
             </ons-list-item>
@@ -227,16 +226,17 @@
           </div>
           <ons-list>
             <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id" @click="viewVideo(prod)">
-              <div class="left list__item__left">
-                <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
-              </div>
+
               <div class="center list__item__center">
-                <div class="list-item__title">{{ prod.title }}</div>
-                <div class="list-item__subtitle">{{ prod.author }}</div>
+                <span class="list-item__title">{{ prod.title }}</span>
+                <span class="list-item__subtitle">{{ prod.author }}</span>
                 <div class="list-item__subtitle">
                   <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;{{ prod.violationsCount }}&nbsp;</span>
                   <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;{{ prod.summaryCount }}&nbsp;</span>
                   <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;{{ prod.transcriptCount }}&nbsp;</span>
+                </div>
+                <div class="right list__item__right">
+                  <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
                 </div>
               </div>
             </ons-list-item>

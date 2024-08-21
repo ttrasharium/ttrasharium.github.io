@@ -11,6 +11,13 @@
   color: green;
 }
 
+.selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 .custom-back-button .back-button__icon,
   .custom-back-button .back-button__label {
     color: white;
