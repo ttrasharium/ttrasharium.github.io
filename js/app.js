@@ -155,6 +155,8 @@
     mounted() {
       if (this.videos.length === 0) {
         this.refresh();
+      } else {
+        this.loading = false;
       }
     },
     methods: {
@@ -188,6 +190,8 @@
     mounted() {
       if (this.channels.length === 0) {
         this.refresh();
+      } else {
+        this.loading = false;
       }
     },
     methods: {
