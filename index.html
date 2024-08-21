@@ -11,14 +11,13 @@
   <meta name="HandheldFriendly" content="True"/>
   <meta name="robots" content="noindex,nofollow"/>
   <meta http-equiv="Pragma" content="no-cache">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui-core.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/onsenui/js/onsenui.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue-onsenui@3/dist/vue-onsenui.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue-router@4/dist/vue-router.global.prod.js"></script>
+  <link rel="stylesheet" href="css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="css/onsenui-core.min.css">
+  <link rel="stylesheet" href="css/onsen-css-components.min.css">
+  <script src="js/vue.global.prod.js"></script>
+  <script src="js/onsenui.min.js"></script>
+  <script src="js/vue-onsenui.min.js"></script>
+  <script src="js/vue-router.global.prod.js"></script>
   
   <link rel="stylesheet" href="css/app.css">
 </head>
@@ -38,7 +37,7 @@
             <ons-list-item @click="navigateTo('ChannelList')" tappable>
               Трэш каналы
             </ons-list-item>
-            <ons-list-item @click="navigateTo('Cart')" tappable>
+            <ons-list-item @click="navigateTo('NotFound')" tappable>
               Отправить контент на анализ
             </ons-list-item>
           </ons-list>
@@ -67,10 +66,7 @@
                 </div>
               </div>
               <ons-list>
-                <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id" @click="viewVideo(prod)">
-                  <div class="left list__item__left">
-                    <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
-                  </div>
+                <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id" @click="viewVideo(prod)" tappable>
                   <div class="center list__item__center">
                     <div class="list-item__title">{{ prod.title }}</div>
                     <div class="list-item__subtitle">{{ prod.author }}</div>
@@ -78,6 +74,9 @@
                       <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;{{ prod.violationsCount }}&nbsp;</span>
                       <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;{{ prod.summaryCount }}&nbsp;</span>
                       <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;{{ prod.transcriptCount }}&nbsp;</span>
+                    </div>
+                    <div class="left list__item__right">
+                      <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
                     </div>
                   </div>
                 </ons-list-item>
@@ -182,7 +181,7 @@
               </ons-toolbar-button>  
             </div>
             <div class="toolbar__center">
-              &nbsp;
+              &nbsp;Трэш Каналы
             </div>
             <div class="toolbar__right">
               <span class="toolbar-button">
@@ -191,12 +190,12 @@
             </div>
           </div>
           <ons-list>
-            <ons-list-item class="list__item" v-for="prod in channels" :key="prod.id" @click="viewChannel(prod)">
-              <div class="left list__item__left">
-                <img :src="'data:image/jpg;base64,' + prod.avatar" height="64px">
-              </div>
+            <ons-list-item class="list__item" v-for="prod in channels" :key="prod.id" @click="viewChannel(prod)" tappable>
               <div class="center list__item__center">
                 <div class="list-item__subtitle">{{ prod.title }}</div>
+              </div>
+              <div class="left list__item__right">
+                <img :src="'data:image/jpg;base64,' + prod.avatar" height="100px">
               </div>
             </ons-list-item>
           </ons-list>
@@ -246,8 +245,8 @@
       </ons-splitter-content>
     </ons-splitter>
   </template>
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+<!--<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>-->
   <script src="js/telegram-web-app.js"></script>
   <script src="js/app.js"></script>
 </body>

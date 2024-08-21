@@ -276,7 +276,7 @@
           this.actionSheetVisible = false;
         },
         videoDownload() {
-          fetchApi(`/api/video/${this.selectedVideo.id}/download`, (data) => {
+          fetchApi(`/api/video/${this.selectedVideo.id}/download`, POST, (data) => {
             ons.notification.toast('Ссылка отправлена в ваш чат с ботом', { timeout: 5000 });
             this.actionSheetVisible = false;
           });
