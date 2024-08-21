@@ -1,4 +1,4 @@
-
+    console.log(location.hash);
     ons.disableIconAutoPrefix();
     const tgWebApp = window.Telegram.WebApp;
     const C = "aHR0cHM6Ly94bjR4NHd0aWhtN29hbnVicWtuZmVjZjdicW94ZGp4c2Y3enRkZHo3dGhzZWViNWQ1YXVkdWVyLWRhZG5sLm1hZ2ljLm9yZw==";
