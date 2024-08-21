@@ -55,7 +55,7 @@
             </ons-toolbar-button>
           </div>
           <div class="toolbar__center">
-            &nbsp;
+            &nbsp;<span v-if="loading">Загрузка...</span><span v-else>Лента трэша</span>
           </div>
           <div class="toolbar__right">
                   <span class="toolbar-button">
@@ -63,7 +63,8 @@
                   </span>
           </div>
         </div>
-        <ons-list>
+        <div v-if="loading" class="center">Загрузка...</div>
+        <ons-list v-else>
           <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id"
                          @click="viewVideo(prod)" tappable>
             <div class="center list__item__center">
@@ -196,7 +197,8 @@
               </span>
           </div>
         </div>
-        <ons-list>
+        <div v-if="loading" class="center">Загрузка...</div>
+        <ons-list v-else>
           <ons-list-item class="list__item" v-for="prod in channels" :key="prod.id"
                          @click="viewChannel(prod)" tappable>
             <div class="center list__item__center">
