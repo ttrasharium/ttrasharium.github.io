@@ -52,7 +52,30 @@
 
     const globalVideos = {};
     const globalChannels = {};
+    const VIDEO_ID_PATTERN = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|[^\/\n\s]*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
+    const sendTrashVideo = () => {
+        const options = {
+          buttonLabels: ["Отмена", "OK"],
+          placeholder: 'https://www.youtube.com/watch?v=...',
+          title: 'Отправить видео',
+          messageHTML: 'Вставьте ссылку на видео YouTube:',
+        };
+        ons.notification.prompt(options).then((link) => {
+          if (!link) {
+            return;
+          }
+          let linkUrl = link.replaceAll("m\\.youtube", "www.youtube").replaceAll("youtu\\.be", "www.youtube.com");
+          const match = linkUrl.match(VIDEO_ID_PATTERN);
+          if (match) {
+            fetchApi('/api/sendvideo/' + match[1], POST, (data) => {
+              ons.notification.toast('Видео отправлено', { timeout: 2000 });
+            });
+          } else {
+            ons.notification.toast('Неверная ссылка на видео', { timeout: 2000 });
+          }
+        });
+    };
 
     const fetchApi = (url, options, callback) => {
       return fetch(`${atob(C)}${url}`, options)
@@ -114,6 +137,9 @@
           this.$router.push({ name: route });
           document.getElementById('menu').close();
         },
+        sendVideo() {
+          sendTrashVideo();
+        },
       },
     };
 
@@ -135,6 +161,9 @@
       },
       openMenu() {
         document.getElementById('menu').open();
+      },
+      sendVideo() {
+        sendTrashVideo();
       },
       refresh() {
         fetchApi('/api/video', GET, (data) => {
@@ -159,6 +188,9 @@
     methods: {
       viewChannel(channel) {
         this.$router.push({ name: 'ChannelDetails', params: { id: channel.id } });
+      },
+      sendVideo() {
+        sendTrashVideo();
       },
       openMenu() {
         document.getElementById('menu').open();
@@ -188,6 +220,9 @@
       },
       openMenu() {
         document.getElementById('menu').open();
+      },
+      sendVideo() {
+        sendTrashVideo();
       },
       viewVideo(video) {
         this.$router.push({ name: 'VideoDetails', params: { id: video.youtubeId } });

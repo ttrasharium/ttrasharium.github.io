@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport"
@@ -21,7 +20,6 @@
   <script src="js/vue-onsenui.min.js"></script>
   <script src="js/vue-router.global.prod.js"></script>
 </head>
-
 <body>
 <div id="app">
   <transition :name="$route.meta.transition || 'fade'">
@@ -37,7 +35,7 @@
       <ons-list-item @click="navigateTo('ChannelList')" tappable>
         Трэш каналы
       </ons-list-item>
-      <ons-list-item @click="navigateTo('NotFound')" tappable>
+      <ons-list-item @click="sendVideo()" tappable>
         Отправить контент на анализ
       </ons-list-item>
     </ons-list>
