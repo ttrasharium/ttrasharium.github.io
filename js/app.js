@@ -33,8 +33,8 @@
       location.hash = hashOptions.pg;
     }
     
-    //const C = "aHR0cHM6Ly94bjR4NHd0aWhtN29hbnVicWtuZmVjZjdicW94ZGp4c2Y3enRkZHo3dGhzZWViNWQ1YXVkdWVyLWRhZG5sLm1hZ2ljLm9yZw==";
-    const C = "";
+    const C = "aHR0cHM6Ly94bjR4NHd0aWhtN29hbnVicWtuZmVjZjdicW94ZGp4c2Y3enRkZHo3dGhzZWViNWQ1YXVkdWVyLWRhZG5sLm1hZ2ljLm9yZw==";
+    //const C = "";
     const options = (method) => {
       return {
         method: method,
