@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport"
@@ -10,211 +11,243 @@
   <meta name="HandheldFriendly" content="True"/>
   <meta name="robots" content="noindex,nofollow"/>
   <meta http-equiv="Pragma" content="no-cache">
-  <!--<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-  <link rel="manifest" href="/static/site.webmanifest">-->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui-core.min.css">
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/onsenui/js/onsenui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-onsenui@3/dist/vue-onsenui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-router@4/dist/vue-router.global.prod.js"></script>
+  
+  <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
-<ons-navigator id="navigator" swipeable swipe-target-width="80px">
-</ons-navigator>
-<template id="video-page.html">
-  <ons-page id="video-page">
-    <ons-splitter id="appSplitter">
-      <ons-splitter-content>
+    <div id="app">
+        <transition :name="$route.meta.transition || 'fade'">
+          <router-view></router-view>
+        </transition>
+      </div>
+      <template id="navigator">
         <ons-page>
-          <ons-toolbar position="auto">
-            <div class="left">
-              <ons-back-button></ons-back-button>
-            </div>
-            <div class="center" id="video-title"></div>
-          </ons-toolbar>
-          <ons-tabbar id="appTabbar" position="auto">
-            <ons-tab label="Нарушения" icon="fa-scale-unbalanced" page="video-abuse.html"
-                     active></ons-tab>
-            <ons-tab label="Содержание" icon="fa-book-atlas" page="video-summary.html"></ons-tab>
-            <ons-tab label="Субтитры" icon="fa-comment-dots" class="fa-brands"
-                     page="video-transcription.html"></ons-tab>
-          </ons-tabbar>
+          <ons-list>
+            <ons-list-item @click="navigateTo('VideoList')" tappable>
+              Лента трэша
+            </ons-list-item>
+            <ons-list-item @click="navigateTo('ChannelList')" tappable>
+              Трэш каналы
+            </ons-list-item>
+            <ons-list-item @click="navigateTo('Cart')" tappable>
+              Отправить контент на анализ
+            </ons-list-item>
+          </ons-list>
         </ons-page>
-      </ons-splitter-content>
-    </ons-splitter>
-  </ons-page>
-</template>
-<template id="video-abuse.html">
-  <ons-page id="video-page-abuse">
-    <ons-list id="video-page-abuse-list"></ons-list>
-  </ons-page>
-</template>
-<template id="video-summary.html">
-  <ons-page id="video-page-summary">
-    <ons-list id="video-page-summary-list"></ons-list>
-  </ons-page>
-</template>
-<template id="video-transcription.html">
-  <ons-page id="video-page-transcription">
-    <ons-list id="video-page-transcription-list"></ons-list>
-  </ons-page>
-</template>
-<template id="youtube.html">
-  <ons-page id="video-page-youtube">
-    <ons-toolbar>
-      <div class="left">
-        <ons-back-button></ons-back-button>
+      </template>
+      <template id="video-list">
+        <ons-splitter>
+          <ons-splitter-side id="menu" side="left" width="220px" collapse>
+            <navigator></navigator>
+          </ons-splitter-side>
+          <ons-splitter-content>
+            <ons-page>
+              <div class="toolbar">
+                <div class="toolbar__left">
+                  <ons-toolbar-button @click="openMenu">
+                    <ons-icon icon="fa-bars"></ons-icon>
+                  </ons-toolbar-button>  
+                </div>
+                <div class="toolbar__center">
+                  &nbsp;
+                </div>
+                <div class="toolbar__right">
+                  <span class="toolbar-button">
+                    <ons-icon @click="refresh" icon="fa-arrows-rotate" size="23px"></ons-icon>
+                  </span>
+                </div>
+              </div>
+              <ons-list>
+                <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id" @click="viewVideo(prod)">
+                  <div class="left list__item__left">
+                    <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
+                  </div>
+                  <div class="center list__item__center">
+                    <div class="list-item__title">{{ prod.title }}</div>
+                    <div class="list-item__subtitle">{{ prod.author }}</div>
+                    <div class="list-item__subtitle">
+                      <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;{{ prod.violationsCount }}&nbsp;</span>
+                      <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;{{ prod.summaryCount }}&nbsp;</span>
+                      <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;{{ prod.transcriptCount }}&nbsp;</span>
+                    </div>
+                  </div>
+                </ons-list-item>
+              </ons-list>
+            </ons-page>
+          </ons-splitter-content>
+        </ons-splitter>
+      </template>
+
+      <template id="video-details">
+        <v-ons-page>
+                <v-ons-toolbar>
+                  <div class="left" width="50px">
+                    <ons-back-button @click="goBack()" class="custom-back-button"></ons-back-button>
+                  </div>
+                  <div class="center">
+                    <span v-if="loading">Загрузка...</span>
+                    <span v-else>{{selectedVideo.details.title}}</span>
+                  </div>
+                </v-ons-toolbar>
+                <v-ons-action-sheet v-model:visible="actionSheetVisible" cancelable title="Действия с фрагментом">
+                  <v-ons-action-sheet-button v-on:click="openYoutube()">
+                    <v-ons-icon icon="fa-youtube" class="fa-brands color-red">
+                    </v-ons-icon>&nbsp;
+                    Пожаловаться в YouTube
+                  </v-ons-action-sheet-button>
+                  <v-ons-action-sheet-button v-on:click="openYoutubeIframe()">
+                    <v-ons-icon icon="fa-eye" class="color-gray"></v-ons-icon>&nbsp;Открыть для просмотра
+                  </v-ons-action-sheet-button>
+                  <v-ons-action-sheet-button v-on:click="copyYoutubeLink()">
+                    <v-ons-icon icon="fa-copy" class="color-gray"></v-ons-icon>&nbsp;Скопировать ссылку
+                  </v-ons-action-sheet-button>
+                  <v-ons-action-sheet-button v-on:click="videoDownload()">
+                    <v-ons-icon icon="fa-file-arrow-down" class="color-gray"></v-ons-icon>&nbsp;Скачать видео (полное)
+                  </v-ons-action-sheet-button>
+                  <v-ons-action-sheet-button @click="actionSheetVisible = false">
+                    <v-ons-icon icon="fa-xmark" class="color-gray"></v-ons-icon>&nbsp;Закрыть
+                  </v-ons-action-sheet-button>
+                </v-ons-action-sheet>
+                <div v-if="loading" class="center">Загрузка...</div>
+                <v-ons-tabbar v-else>
+                  <template v-slot:pages>
+                    <violations-page :video="selectedVideo" :items="selectedVideo.violations" v-on:open-action-sheet="handleOpenActionSheet"></violations-page>
+                    <violations-page :video="selectedVideo" :items="selectedVideo.summary" v-on:open-action-sheet="handleOpenActionSheet"></violations-page>
+                    <violations-page :video="selectedVideo" :items="selectedVideo.transcription" v-on:open-action-sheet="handleOpenActionSheet"></violations-page>
+                  </template>
+                  <v-ons-tab label="Нарушения" icon="fa-scale-unbalanced" active="true"></v-ons-tab>
+                  <v-ons-tab label="Содержание" icon="fa-book-atlas"></v-ons-tab>
+                  <v-ons-tab label="Субтитры" icon="fa-comment-dots" class="fa-brands"></v-ons-tab>
+                </v-ons-tabbar>
+        </v-ons-page>
+      </template>
+      <template id="video-violations">
+        <v-ons-page>
+          <v-ons-list>
+            <video-detail-item v-for="item in items" :item="item" :video="video" @open-action-sheet="$emit('open-action-sheet', item)"></video-detail-item>
+          </v-ons-list>
+        </v-ons-page>
+      </template>
+  <template id="video-detail-item">
+    <div>
+      <v-ons-list-header>
+        <div align="right">
+          <span>Фрагмент: {{item.s}} - {{item.e}}</span>
+          <ons-button modifier="quiet" @click="openActionSheet(item, video)">
+            <ons-icon icon="fa-bars" class="fa-solid color-black"></ons-icon>
+          </ons-button>
+        </div>
+      </v-ons-list-header>
+      <v-ons-list-item>
+        <div class="content">
+          <b v-if="item.p">Спикер {{item.p}}:</b>
+          <div class="text-content">{{item.c}}</div>
+        </div>
+      </v-ons-list-item>
+    </div>
+  </template>
+  <template id="youtube-iframe">
+    <v-ons-toolbar>
+      <div class="left" width="50px">
+        <ons-back-button @click="goBackToDetails()" class="custom-back-button"></ons-back-button>
       </div>
-      <div class="center">
-        Назад
-      </div>
-    </ons-toolbar>
+    </v-ons-toolbar>
+    <div class="center">
     <div class="youtube-iframe">
-      <iframe id="player" type="text/html" src=""
+      <iframe id="player" type="text/html" :src="link"
               frameborder="0" allow="autoplay; encrypted-media; picture-in-picture;"
               allowfullscreen></iframe>
     </div>
-    <style>
-      .youtube-iframe {
-        position: relative;
-        width: 100%;
-        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-        height: 0;
-        overflow: hidden;
-      }
-
-      .youtube-iframe iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </ons-page>
-</template>
-<template id="video-actions.html">
-  <ons-action-sheet id="video-action-sheet" cancelable title="Действия с фрагментом">
-    <ons-action-sheet-button id="video-actions-report">
-      <a>
-        <ons-icon icon="fa-youtube" class="fa-brands color-red"></ons-icon>&nbsp;Пожаловаться в
-        YouTube</a>
-    </ons-action-sheet-button>
-    <ons-action-sheet-button id="video-actions-open" onclick="window.fn.showYoutube(event)">
-      <ons-icon icon="fa-eye" class="color-gray"></ons-icon>&nbsp;Открыть для просмотра
-    </ons-action-sheet-button>
-    <ons-action-sheet-button id="video-actions-copy" onclick="window.fn.copyToClipboard(event)">
-      <ons-icon icon="fa-copy" class="color-gray"></ons-icon>&nbsp;Скопировать ссылку
-    </ons-action-sheet-button>
-    <ons-action-sheet-button id="video-actions-download">
-      <ons-icon icon="fa-file-arrow-down" class="fa-solid color-gray"></ons-icon>&nbsp;Скачать видео (полное)
-    </ons-action-sheet-button>
-    <ons-action-sheet-button id="video-actions-cancel" onclick="window.fn.hideVideoActionSheet()">
-      <ons-icon icon="fa-xmark" class="fa-solid color-gray"></ons-icon>&nbsp;Отмена
-    </ons-action-sheet-button>
-  </ons-action-sheet>
-</template>
-<template id="video-detail-list-item.html">
-  <div>
-    <ons-list-header>
-      <div align="right">
-        <span id="video-detail-list-item-title"></span>
-        <ons-button modifier="quiet" onclick="" id="video-action-button">
-          <ons-icon icon="fa-bars" class="fa-solid color-black"></ons-icon>
-        </ons-button>
-      </div>
-    </ons-list-header>
-    <ons-list-item>
-      <div class="content"></div>
-    </ons-list-item>
-  </div>
-</template>
-<template id="video-page-list.html">
-  <ons-page id="video-page-list">
-    <ons-toolbar>
-      <div class="center">Список видео</div>
-    </ons-toolbar>
-    <ons-list id="video-list"></ons-list>
-  </ons-page>
-</template>
-<template id="video-page-list-item.html">
-  <ons-list-item id="video-page-list-item" tappable onclick="window.fn.showDetails(event);">
-    <div class="center">
-      <span class="list-item__title" id="video-list-item-title"></span>
-      <span class="list-item__subtitle" id="video-list-item-subtitle"></span>
-        <div class="list-item__subtitle">
-          <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;<span id="violations-count"></span></span>
-          <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;<span id="summary-count"></span></span>
-          <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;<span id="transcript-count"></span></span>
-        </div>
-    </div>
-    <div class="right loader_container">
-      <img id="video-list-item-thumbnail" class="responsive_image">
-      <div class="loader" id="loader"></div>
-    </div>
-  </ons-list-item>
-</template>
-<!--<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>-->
-<script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-<script src="js/telegram-web-app.js"></script>
-<script src="js/java-js.js"></script>
-<script>
-  ons.disableIconAutoPrefix();
-  ons.ready(() => main());
-</script>
-<style>
-  .color-red {
-    color: red;
-  }
-  .color-gray {
-    color: gray;
-  }
-  .color-black {
-    color: black;
-  }
-  .color-green {
-    color: green;
-  }
-  .video-segment {
-    width: 100%;
-  }
- .content {
-    white-space: pre-wrap;
-  }
-  .responsive_image {
-    width: 100px; /* Image scales to fit the width of its container */
-    height: auto; /* Maintains the aspect ratio */
-}
-.loader {
-  display: none; /* Initially hidden */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #3498db;
-  border-radius: 50%;
-  animation: spin 2s linear infinite;
-}
-.selectable {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-}
-.loader_container{
-  position: relative;
-  display: inline-block;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-</style>
+  </template>
+  <template id="channel-list">
+    <ons-splitter>
+      <ons-splitter-side id="menu" side="left" width="220px" collapse>
+        <navigator></navigator>
+      </ons-splitter-side>
+      <ons-splitter-content>
+        <ons-page>
+          <div class="toolbar">
+            <div class="toolbar__left">
+              <ons-toolbar-button @click="openMenu">
+                <ons-icon icon="fa-bars"></ons-icon>
+              </ons-toolbar-button>  
+            </div>
+            <div class="toolbar__center">
+              &nbsp;
+            </div>
+            <div class="toolbar__right">
+              <span class="toolbar-button">
+                <ons-icon @click="refresh" icon="fa-arrows-rotate" size="23px"></ons-icon>
+              </span>
+            </div>
+          </div>
+          <ons-list>
+            <ons-list-item class="list__item" v-for="prod in channels" :key="prod.id" @click="viewChannel(prod)">
+              <div class="left list__item__left">
+                <img :src="'data:image/jpg;base64,' + prod.avatar" height="64px">
+              </div>
+              <div class="center list__item__center">
+                <div class="list-item__subtitle">{{ prod.title }}</div>
+              </div>
+            </ons-list-item>
+          </ons-list>
+        </ons-page>
+      </ons-splitter-content>
+    </ons-splitter>
+  </template>
+  <template id="channel-details">
+    <ons-splitter>
+      <ons-splitter-side id="menu" side="left" width="220px" collapse>
+        <navigator></navigator>
+      </ons-splitter-side>
+      <ons-splitter-content>
+        <ons-page>
+          <div class="toolbar">
+            <div class="toolbar__left">
+              <ons-toolbar-button @click="openMenu">
+                <ons-icon icon="fa-bars"></ons-icon>
+              </ons-toolbar-button>  
+            </div>
+            <div class="toolbar__center">
+              &nbsp;
+            </div>
+            <div class="toolbar__right">
+              <span class="toolbar-button">
+                <ons-icon @click="refresh" icon="fa-arrows-rotate" size="23px"></ons-icon>
+              </span>
+            </div>
+          </div>
+          <ons-list>
+            <ons-list-item class="list__item" v-for="prod in videos" :key="prod.id" @click="viewVideo(prod)">
+              <div class="left list__item__left">
+                <img :src="'https://img.youtube.com/vi/' + prod.youtubeId + '/0.jpg'" height="120px">
+              </div>
+              <div class="center list__item__center">
+                <div class="list-item__title">{{ prod.title }}</div>
+                <div class="list-item__subtitle">{{ prod.author }}</div>
+                <div class="list-item__subtitle">
+                  <span class="color-red"><ons-icon icon="fa-scale-unbalanced"></ons-icon>&nbsp;{{ prod.violationsCount }}&nbsp;</span>
+                  <span class="color-green"><ons-icon icon="fa-book-atlas"></ons-icon>&nbsp;{{ prod.summaryCount }}&nbsp;</span>
+                  <span class="color-black"><ons-icon icon="fa-comment-dots" class="fa-brands"></ons-icon>&nbsp;{{ prod.transcriptCount }}&nbsp;</span>
+                </div>
+              </div>
+            </ons-list-item>
+          </ons-list>
+        </ons-page>
+      </ons-splitter-content>
+    </ons-splitter>
+  </template>
+  <script src="js/telegram-web-app.js"></script>
+  <script src="js/app.js"></script>
 </body>
+
 </html>
