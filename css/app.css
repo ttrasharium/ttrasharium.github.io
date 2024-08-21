@@ -1,14 +1,19 @@
 .color-red {
-  color: red;
+  color: #E74C3C;
 }
 .color-gray {
-  color: gray;
+  color: #7F8C8D;
 }
 .color-black {
-  color: black;
+  color: #34495E;
 }
 .color-green {
-  color: green;
+  color: #2ECC71;
+}
+
+.img {
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .selectable {
@@ -41,7 +46,7 @@
 }
 
 .toolbar {
-  background: #256804;
+  background: #1E9A4D;
 }
 
 .toolbar-button {

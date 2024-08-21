@@ -33,8 +33,8 @@
       location.hash = hashOptions.pg;
     }
     
-    const C = "aHR0cHM6Ly94bjR4NHd0aWhtN29hbnVicWtuZmVjZjdicW94ZGp4c2Y3enRkZHo3dGhzZWViNWQ1YXVkdWVyLWRhZG5sLm1hZ2ljLm9yZw==";
-    // const C = "";
+    //const C = "aHR0cHM6Ly94bjR4NHd0aWhtN29hbnVicWtuZmVjZjdicW94ZGp4c2Y3enRkZHo3dGhzZWViNWQ1YXVkdWVyLWRhZG5sLm1hZ2ljLm9yZw==";
+    const C = "";
     const options = (method) => {
       return {
         method: method,
@@ -62,7 +62,7 @@
           }
           return response.json().then(callback);
         }).catch((error) => {
-          ons.notification.toast(error, { timeout: 5000 });
+          ons.notification.toast(error, { timeout: 2000 });
         });
     };
 
@@ -97,8 +97,8 @@
       },
       methods: {
         goBackToDetails() {
-          const history = this.$router.history;
-          if (history && history.length > 1) {
+          const history = window.history.state.back;
+          if (history) {
             this.$router.go(-1);
           } else {
             this.$router.push({ name: 'VideoDetails', params: { id: this.$route.params.id } });
@@ -240,13 +240,13 @@
       mounted() {
         fetchVideo(this.$route.params.id, (data) => {
           this.selectedVideo = data;
-          this.loading = false;  
+          this.loading = false;
         });
       },
       methods: {
         goBack() {
-          const history = this.$router.history;
-          if (history && history.length > 1) {
+          const history = window.history.state.back;
+          if (history) {
             this.$router.go(-1);
           } else {
             this.$router.push({ name: 'VideoList' });
@@ -269,7 +269,7 @@
           const link = 'https://www.youtube.com/watch?v=' + this.selectedVideo.id + '&t=' + timeToSeconds(this.selectedItem.s);
           if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(link).then(() => {
-              ons.notification.toast('Ссылка скрпирована', { timeout: 5000 });
+              ons.notification.toast('Ссылка скoпирована', { timeout: 2000 });
               this.actionSheetVisible = false;
             }); 
           }
@@ -277,7 +277,7 @@
         },
         videoDownload() {
           fetchApi(`/api/video/${this.selectedVideo.id}/download`, POST, (data) => {
-            ons.notification.toast('Ссылка отправлена в ваш чат с ботом', { timeout: 5000 });
+            ons.notification.toast('Ссылка отправлена в ваш чат с ботом', { timeout: 2000 });
             this.actionSheetVisible = false;
           });
         }
