@@ -2,17 +2,12 @@
     
     const fixLocationHash = () => {
       const hash = location.hash;
-      const split = hash.split("#");
-      let telegramHash = hash;
-      let pageHash = null; 
-      if (split.length > 2) {
-        if (split[1].startsWith("tgWebApp")) {
-          telegramHash = "#" + split[1];
-          pageHash = "#" + split[2];
-        } else if (split[2].startsWith("tgWebApp")) {
-          telegramHash = "#" + split[2];
-          pageHash = "#" + split[1];
-        }
+      const telegramHash = hash;
+      const url = new URL(location.href);
+      const startParam = url.searchParams.get("tgWebAppStartParam");
+      let pageHash = "#/";
+      if (startParam) {
+        pageHash += startParam;
       }
       return {tg: telegramHash, pg: pageHash};
     };
