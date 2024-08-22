@@ -7,7 +7,7 @@
       const startParam = url.searchParams.get("tgWebAppStartParam");
       let pageHash = "#/";
       if (startParam) {
-        pageHash += startParam;
+        pageHash += atob(startParam);
       }
       return {tg: telegramHash, pg: pageHash};
     };
