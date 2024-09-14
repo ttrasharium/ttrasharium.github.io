@@ -249,7 +249,7 @@
       template: '#video-detail-item',
       emits: ['open-action-sheet'],
       methods: {
-        openActionSheet(item, video) {
+        openActionSheet(item) {
           this.$emit('open-action-sheet', item);
         },
       }

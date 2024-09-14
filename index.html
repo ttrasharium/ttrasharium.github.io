@@ -140,7 +140,7 @@
     <v-ons-list>
       <div v-if="items.length === 0" class="center">Нет данных</div>
       <video-detail-item v-for="item in items" :item="item" :video="video"
-                         @open-action-sheet="$emit('open-action-sheet', item)"></video-detail-item>
+                         @open-action-sheet="$emit('open-action-sheet', $event)"></video-detail-item>
     </v-ons-list>
   </v-ons-page>
 </template>
