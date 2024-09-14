@@ -120,8 +120,7 @@
             if (!link) {
               return;
             }
-            const linkUrl = link.replaceAll("m\\.youtube", "www.youtube")
-              .replaceAll("youtu\\.be", "www.youtube.com");
+            const linkUrl = link.replaceAll("m\\.youtube", "www.youtube");
             const match = linkUrl.match(VIDEO_ID_PATTERN);
             if (match) {
               fetchApi('/api/sendvideo/' + match[1], POST, (data) => {
