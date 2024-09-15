@@ -158,22 +158,20 @@
       <div class="content">
         <b v-if="item.p">Спикер {{item.p}}:</b>
         <div class="text-content selectable">{{item.c}}</div>
-        <div v-if="item.v && item.v.length > 0" class="text-content selectable">
+        <p v-if="item.v && item.v.length > 0">
           <b>Нарушения с тайм-кодами:</b>
-          <div v-for="violation in item.v" class="violation">
+          <p v-for="violation in item.v" class="violation">
             <div class="violation-header"><span class="color-red">{{violation.r}}</span></div>
             <div v-for="segment in violation.s" class="violation-segment" @open-action-sheet="$emit('open-action-sheet', segment)">
               <div>
                 <ons-button modifier="quiet" @click="openActionSheet(segment, video)">
                   <ons-icon icon="fa-circle-xmark" class="fa-solid color-black"></ons-icon>
+                  <span>{{segment.s}} - {{segment.e}} {{segment.c}}</span>
                 </ons-button>
-                <span>{{segment.c}}</span>
-                <!--<a @click="openActionSheet(segment, video)">{{segment.s}} - {{segment.e}} {{segment.c}}</a>-->
               </div>
-
             </div>
-          </div>
-        </div>
+          </p>
+        </p>
       </div>
     </v-ons-list-item>
   </div>
