@@ -252,6 +252,9 @@
         openActionSheet(item) {
           this.$emit('open-action-sheet', item);
         },
+        replaceSpeaker(text) {
+          return text.replace(/^Speaker\s\d+:\s*/, '');
+        }
       }
     };
 
