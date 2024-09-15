@@ -158,9 +158,9 @@
       <div class="content">
         <b v-if="item.p">Спикер {{item.p}}:</b>
         <div class="text-content selectable">{{item.c}}</div>
-        <p v-if="item.v && item.v.length > 0">
+        <div v-if="item.v && item.v.length > 0">
           <b>Нарушения с тайм-кодами:</b>
-          <p v-for="violation in item.v" class="violation">
+          <div v-for="violation in item.v" class="violation">
             <div class="violation-header"><span class="color-red">{{violation.r}}</span></div>
             <div v-for="segment in violation.s" class="violation-segment" @open-action-sheet="$emit('open-action-sheet', segment)">
               <div>
@@ -170,8 +170,8 @@
                 </ons-button>
               </div>
             </div>
-          </p>
-        </p>
+          </div>
+        </div>
       </div>
     </v-ons-list-item>
   </div>
