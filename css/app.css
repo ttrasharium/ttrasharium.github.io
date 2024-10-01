@@ -61,6 +61,44 @@
   white-space: pre-wrap;
 }
 
+.text-content em {
+  color: red;
+}
+
+.video-result {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.video-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.video-matches {
+  margin-top: 10px;
+}
+
+.video-match {
+  margin-bottom: 10px;
+}
+
+.match-time {
+  font-size: 14px;
+  color: #666;
+}
+
+.match-content {
+  font-size: 14px;
+  color: #444;
+}
+
 
 /* checkout */
 .modal {

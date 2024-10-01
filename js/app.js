@@ -204,6 +204,49 @@
     },
   };
 
+  const SearchPage = {
+    template: '#search-page',
+    data() {
+      return {
+        channels: [],
+        selectedChannel: '',
+        searchTerm: '',
+        searchResults: [],
+        loading: false,
+      };
+    },
+    mounted() {
+      this.fetchChannels();
+    },
+    methods: {
+      fetchChannels() {
+        fetchApi('/api/channel', GET, (data) => {
+          this.channels = data;
+        });
+      },
+      viewVideo(video) {
+        this.$router.push({ name: 'VideoDetails', params: { id: video } });
+      },
+      goBack() {
+        const history = window.history.state.back;
+        if (history) {
+          this.$router.go(-1);
+        } else {
+          this.$router.push({ name: 'ChannelList' });
+        }
+      },
+      search() {
+        if (this.selectedChannel && this.searchTerm) {
+          this.loading = true;
+          fetchApi(`/api/channel/${this.selectedChannel}/search/${this.searchTerm}`, GET, (data) => {
+            this.searchResults = data;
+            this.loading = false;
+          });
+        }
+      },
+    },
+  };
+
   const ChannelDetails = {
     template: '#channel-details',
     data() {
@@ -245,7 +288,7 @@
     };
 
     const VideoDetailItem = {
-      props: ['item', 'video'],
+      props: ['item'],
       template: '#video-detail-item',
       emits: ['open-action-sheet'],
       methods: {
@@ -259,7 +302,7 @@
     };
 
     const VideoActionSheet = {
-      props: ['video', 'item', 'actionSheetVisible'],
+      props: ['item', 'actionSheetVisible'],
       template: "#video-fragment-actions",
     };
 
@@ -331,6 +374,7 @@
     { path: '/video/:id/youtube/:time', component: YoutubeIframe, name: 'YoutubeIframe', meta: { transition: 'pulse' } },
     { path: '/channel', component: ChannelList, name: 'ChannelList', meta: { transition: 'pulse' } },
     { path: '/channel/:id', component: ChannelDetails, name: 'ChannelDetails', meta: { transition: 'pulse' } },
+    { path: '/search', component: SearchPage, name: 'SearchPage', meta: { transition: 'pulse' } },
   ];
 
     const router = VueRouter.createRouter({

@@ -35,10 +35,54 @@
       <ons-list-item @click="navigateTo('ChannelList')" tappable>
         Трэш каналы
       </ons-list-item>
+      <ons-list-item @click="navigateTo('SearchPage')" tappable>
+        Поиск
+      </ons-list-item>
       <ons-list-item @click="sendVideo()" tappable>
         Отправить контент на анализ
       </ons-list-item>
     </ons-list>
+  </ons-page>
+</template>
+<template id="search-page">
+
+  <ons-page>
+    <v-ons-toolbar>
+      <div class="left" width="50px">
+        <ons-back-button @click="goBack()" class="custom-back-button"></ons-back-button>
+      </div>
+    </v-ons-toolbar>
+    <div class="content">
+      <ons-list>
+        <ons-list-item>
+          <label for="channel-select">Выберите канал:</label>
+          <select id="channel-select" v-model="selectedChannel">
+            <option v-for="channel in channels" :value="channel.id">{{ channel.title }}</option>
+          </select>
+        </ons-list-item>
+        <ons-list-item>
+          <label for="search-term">Поисковый запрос:</label>
+          <input id="search-term" v-model="searchTerm" type="text" placeholder="Введите поисковый запрос">
+        </ons-list-item>
+        <ons-list-item>
+          <ons-button @click="search">Поиск</ons-button>
+        </ons-list-item>
+      </ons-list>
+      <div v-if="loading" class="center">Загрузка...</div>
+      <ons-list v-else>
+        <ons-list-item v-for="result in searchResults" :key="result.videoId">
+          <div class="video-result">
+            <div class="video-title" @click="viewVideo(result.videoId)" tappable>{{result.videoTitle}}</div>
+            <div class="video-matches">
+              <div v-for="match in result.matches" class="video-match">
+                <span class="match-time">Фрагмент: {{match.s}} - {{match.e}}</span>
+                <div v-html="match.c" class="text-content selectable match-content"></div>
+              </div>
+            </div>
+          </div>
+        </ons-list-item>
+      </ons-list>
+    </div>
   </ons-page>
 </template>
 <template id="video-list">
@@ -139,7 +183,7 @@
   <v-ons-page>
     <v-ons-list>
       <div v-if="items.length === 0" class="center">Нет данных</div>
-      <video-detail-item v-for="item in items" :item="item" :video="video"
+      <video-detail-item v-for="item in items" :item="item"
                          @open-action-sheet="$emit('open-action-sheet', $event)"></video-detail-item>
     </v-ons-list>
   </v-ons-page>
@@ -149,7 +193,7 @@
     <v-ons-list-header>
       <div align="right">
         <span>Фрагмент: {{item.s}} - {{item.e}}</span>
-        <ons-button modifier="quiet" @click="openActionSheet(item, video)">
+        <ons-button modifier="quiet" @click="openActionSheet(item)">
           <ons-icon icon="fa-bars" class="fa-solid color-black"></ons-icon>
         </ons-button>
       </div>
@@ -157,14 +201,14 @@
     <v-ons-list-item>
       <div class="content">
         <b v-if="item.p">Спикер {{item.p}}:</b>
-        <div class="text-content selectable">{{item.c}}</div>
+        <div class="text-content selectable" v-html="item.c"></div>
         <div v-if="item.v && item.v.length > 0" class="text-content selectable">
           <b>Нарушения с тайм-кодами:</b>
           <div v-for="violation in item.v" class="violation">
             <div class="violation-header"><span class="color-red">{{violation.r}}</span></div>
             <div v-for="segment in violation.s" class="violation-segment" @open-action-sheet="$emit('open-action-sheet', segment)">
               <div>
-                <ons-button modifier="quiet" @click="openActionSheet(segment, video)">
+                <ons-button modifier="quiet" @click="openActionSheet(segment)">
                   <ons-icon icon="fa-circle-xmark" class="fa-solid color-black"></ons-icon>
                   &nbsp;{{segment.s}} - {{segment.e}}
                 </ons-button>
@@ -190,6 +234,7 @@
               frameborder="0" allow="autoplay; encrypted-media; picture-in-picture;"
               allowfullscreen></iframe>
     </div>
+  </div>
 </template>
 <template id="channel-list">
   <ons-splitter>
