@@ -74,7 +74,7 @@
        if (globalChannelList['channels']) {
           callback(globalChannelList['channels']);
        } else {
-          fetchApi('/api/video', GET, (data) => {
+          fetchApi('/api/channel', GET, (data) => {
             globalChannelList['channels'] = data;
             callback(data);
           });
