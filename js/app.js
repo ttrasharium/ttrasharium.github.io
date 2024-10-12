@@ -57,7 +57,7 @@
           }
           return response.json().then(callback);
         }).catch((error) => {
-          ons.notification.toast(error, { timeout: 2000 });
+          ons.notification.toast(error + '', { timeout: 2000 });
         });
     };
 
@@ -67,6 +67,17 @@
 
     const fetchVideo = (videoId, callback) => {
       fetchItem(videoId, globalVideos, `/api/video/${videoId}`, callback);
+    };
+
+    const fetchChannels = (callback) => {
+       if (holder['channels']) {
+          callback(holder['channels']);
+       } else {
+          fetchApi('/api/video', GET, (data) => {
+            holder['channels'] = data;
+            callback(data);
+          });
+       }
     };
 
     const fetchItem = (id, holder, url, callback) => {
@@ -165,7 +176,7 @@
           this.$root.$data.videos = data;
           this.loading = false;
         });
-      },    
+      },
     },
   };
 
@@ -196,7 +207,7 @@
         document.getElementById('menu').open();
       },
       refresh() {
-        fetchApi('/api/channel', GET, (data) => {
+        fetchChannels((data) => {
           this.$root.$data.channels = data;
           this.loading = false;
         });
@@ -216,14 +227,12 @@
       };
     },
     mounted() {
-      this.fetchChannels();
+      fetchChannels((data) => {
+        this.channels = data;
+        this.loading = false;
+      });
     },
     methods: {
-      fetchChannels() {
-        fetchApi('/api/channel', GET, (data) => {
-          this.channels = data;
-        });
-      },
       viewVideo(video) {
         this.$router.push({ name: 'VideoDetails', params: { id: video } });
       },

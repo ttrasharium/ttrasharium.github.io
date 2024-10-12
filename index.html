@@ -56,13 +56,13 @@
       <ons-list>
         <ons-list-item>
           <label for="channel-select">Выберите канал:</label>
-          <select id="channel-select" v-model="selectedChannel">
+          <select id="channel-select" v-model="selectedChannel" class="select-input">
             <option v-for="channel in channels" :value="channel.id">{{ channel.title }}</option>
           </select>
         </ons-list-item>
         <ons-list-item>
           <label for="search-term">Поисковый запрос:</label>
-          <input id="search-term" v-model="searchTerm" type="text" placeholder="Введите поисковый запрос">
+          <input id="search-term" class="search-input search-input--material" style="width: auto;" v-model="searchTerm" type="text" placeholder="Введите поисковый запрос">
         </ons-list-item>
         <ons-list-item>
           <ons-button @click="search">Поиск</ons-button>
