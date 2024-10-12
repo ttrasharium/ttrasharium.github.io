@@ -48,20 +48,23 @@
 
   <ons-page>
     <v-ons-toolbar>
-      <div class="left" width="50px">
+      <div class="toolbar__left" width="50px">
         <ons-back-button @click="goBack()" class="custom-back-button"></ons-back-button>
+      </div>
+      <div class="toolbar__center">
+        &nbsp;<span>Поиск</span>
       </div>
     </v-ons-toolbar>
     <div class="content">
       <ons-list>
         <ons-list-item>
-          <label for="channel-select">Выберите канал:</label>
-          <select id="channel-select" v-model="selectedChannel" class="select-input">
+          <label for="channel-select">Выберите канал:&nbsp;</label>
+          <span v-if="loading">Загрузка каналов...</span>
+          <select id="channel-select" v-model="selectedChannel" class="select-input" style="width: auto;" v-else>
             <option v-for="channel in channels" :value="channel.id">{{ channel.title }}</option>
           </select>
         </ons-list-item>
         <ons-list-item>
-          <label for="search-term">Поисковый запрос:</label>
           <input id="search-term" class="search-input search-input--material" style="width: auto;" v-model="searchTerm" type="text" placeholder="Введите поисковый запрос">
         </ons-list-item>
         <ons-list-item>
