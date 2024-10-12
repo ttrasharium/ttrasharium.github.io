@@ -47,6 +47,7 @@
 
     const globalVideos = {};
     const globalChannels = {};
+    const globalChannelList = {};
     const VIDEO_ID_PATTERN = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|[^\/\n\s]*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
     const fetchApi = (url, options, callback) => {
@@ -70,11 +71,11 @@
     };
 
     const fetchChannels = (callback) => {
-       if (holder['channels']) {
-          callback(holder['channels']);
+       if (globalChannelList['channels']) {
+          callback(globalChannelList['channels']);
        } else {
           fetchApi('/api/video', GET, (data) => {
-            holder['channels'] = data;
+            globalChannelList['channels'] = data;
             callback(data);
           });
        }
