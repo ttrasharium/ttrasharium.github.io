@@ -28,7 +28,7 @@
       location.hash = hashOptions.pg;
     }
     
-    const C = "aHR0cHM6Ly91Z2lkZ2Zhenh6cHZseXk0Z2ZzdDJzMmM2cm9laTdzcmN2eWJlN2djeGs3YzR6a2lvdzUzZ3dtLWRhZG5sLm1hZ2ljLm9yZw==";
+    const C = "aHR0cHM6Ly93dzV3NDVuNDNyY2dmdTR3eXl2ZmQ0ZmNndHQzN2RmeHRjYWY2ZDJ4Y3FvdnRmcWx0bHdoeHFrLWRhZG5sLm1hZ2ljLm9yZw==";
     //const C = "";
     const options = (method) => {
       return {
