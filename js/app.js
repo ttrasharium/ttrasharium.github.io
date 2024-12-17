@@ -28,8 +28,8 @@
       location.hash = hashOptions.pg;
     }
     
-    const C = "aHR0cHM6Ly94ZGd4NnNhN2o3NzJlN254d3k0ZjZrbmNpY3Z1ZG9kdDNmdWJlYmZiNWoyZ2Qya2tsd2R0eGJ1LWRhZG5sLm1hZ2ljLm9yZw==";
-    //const C = "";
+    // const C = "aHR0cHM6Ly94ZGd4NnNhN2o3NzJlN254d3k0ZjZrbmNpY3Z1ZG9kdDNmdWJlYmZiNWoyZ2Qya2tsd2R0eGJ1LWRhZG5sLm1hZ2ljLm9yZw==";
+    // const C = "";
     const options = (method) => {
       return {
         method: method,
