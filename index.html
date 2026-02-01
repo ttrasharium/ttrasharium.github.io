@@ -142,7 +142,7 @@
       </div>
       <div class="center">
         <span v-if="loading">Загрузка...</span>
-        <span v-else>{{selectedVideo.details.title}}</span>
+        <span v-else>{{ (selectedVideo.details && selectedVideo.details.title) || selectedVideo.title || 'Видео' }}</span>
       </div>
       <div class="right" v-if="!loading">
         <ons-toolbar-button @click="handleOpenActionSheet(null)">
@@ -174,11 +174,11 @@
     <div v-if="loading" class="center">Загрузка...</div>
     <v-ons-tabbar v-else>
       <template v-slot:pages>
-        <violations-page :video="selectedVideo" :items="selectedVideo.violations"
+        <violations-page :video="selectedVideo" :items="selectedVideo.violations || []"
                          v-on:open-action-sheet="handleOpenActionSheet"></violations-page>
-        <violations-page :video="selectedVideo" :items="selectedVideo.summary"
+        <violations-page :video="selectedVideo" :items="selectedVideo.summary || []"
                          v-on:open-action-sheet="handleOpenActionSheet"></violations-page>
-        <violations-page :video="selectedVideo" :items="selectedVideo.transcription"
+        <violations-page :video="selectedVideo" :items="selectedVideo.transcription || []"
                          v-on:open-action-sheet="handleOpenActionSheet"></violations-page>
       </template>
       <v-ons-tab label="Нарушения" icon="fa-scale-unbalanced" active="true"></v-ons-tab>
@@ -190,7 +190,7 @@
 <template id="video-violations">
   <v-ons-page>
     <v-ons-list>
-      <div v-if="items.length === 0" class="center">Нет данных</div>
+      <div v-if="!items || items.length === 0" class="center">Нет данных</div>
       <video-detail-item v-for="item in items" :item="item"
                          @open-action-sheet="$emit('open-action-sheet', $event)"></video-detail-item>
     </v-ons-list>
