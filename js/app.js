@@ -351,16 +351,19 @@
           this.actionSheetVisible = true;
         },
         openYoutube() {
-          const link = 'https://www.youtube.com/watch?v=' + this.selectedVideo.id + '&t=' + timeToSeconds(this.selectedItem.s);
+          const time = this.selectedItem ? timeToSeconds(this.selectedItem.s) : 0;
+          const link = 'https://www.youtube.com/watch?v=' + this.selectedVideo.id + '&t=' + time;
           window.open(link, '_blank');
           this.actionSheetVisible = false;
         },
         openYoutubeIframe() {
           this.actionSheetVisible = false;
-          this.$router.push({ name: 'YoutubeIframe', params: { id: this.selectedVideo.id, time: timeToSeconds(this.selectedItem.s) } });
+          const time = this.selectedItem ? timeToSeconds(this.selectedItem.s) : 0;
+          this.$router.push({ name: 'YoutubeIframe', params: { id: this.selectedVideo.id, time: time } });
         },
         copyYoutubeLink() {
-          const link = 'https://www.youtube.com/watch?v=' + this.selectedVideo.id + '&t=' + timeToSeconds(this.selectedItem.s);
+          const time = this.selectedItem ? timeToSeconds(this.selectedItem.s) : 0;
+          const link = 'https://www.youtube.com/watch?v=' + this.selectedVideo.id + '&t=' + time;
           if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(link).then(() => {
               ons.notification.toast('Ссылка скoпирована', { timeout: 2000 });
