@@ -191,6 +191,14 @@
   <v-ons-page>
     <v-ons-list>
       <div v-if="!items || items.length === 0" class="center">Нет данных</div>
+      <v-ons-list-item v-if="!items || items.length === 0">
+        <div class="content">
+          <ons-button modifier="quiet" @click="$emit('open-action-sheet', null)">
+            <ons-icon icon="fa-bars" class="fa-solid color-black"></ons-icon>
+            &nbsp;Открыть меню
+          </ons-button>
+        </div>
+      </v-ons-list-item>
       <video-detail-item v-for="item in items" :item="item"
                          @open-action-sheet="$emit('open-action-sheet', $event)"></video-detail-item>
     </v-ons-list>
