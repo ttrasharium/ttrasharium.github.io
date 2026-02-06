@@ -193,7 +193,7 @@
       <div v-if="!items || items.length === 0" class="center">Нет данных</div>
       <v-ons-list-item v-if="!items || items.length === 0">
         <div class="content">
-          <ons-button modifier="quiet" @click="$emit('open-action-sheet', null)">
+          <ons-button modifier="quiet" @click="$emit('open-action-sheet', $event)">
             <ons-icon icon="fa-bars" class="fa-solid color-black"></ons-icon>
             &nbsp;Открыть меню
           </ons-button>
